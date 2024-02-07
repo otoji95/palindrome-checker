@@ -17,16 +17,31 @@ const button = document.getElementById("check-btn");
 const input = document.getElementById("text-input");
 const result = document.getElementById("result");
 const para = document.createElement("p");
+const strong = document.createElement("strong");
 result.appendChild(para);
+para.appendChild(strong);
+para.setAttribute("id", "input-return");
 
 function handleInputCheck(e) {
   e.preventDefault();
   if (input.value == "") {
     alert("Please input a value.");
+    return;
   }
 
-  let answer = palindrome(input.value);
-  para.innerText = answer ? `${input.value} is a palindrome.` : `${input.value} is not a palindrome.`;
+  let answer = isPalindrome(input.value);
+  strong.innerText = input.value;
+
+  if (para.childNodes.length > 1) {
+    para.removeChild(para.childNodes[1]);
+  }
+
+  const resultText = document.createTextNode(answer ? " is a palindrome." : " is not a palindrome.");
+  if (para.childNodes.length === 1) {
+    para.appendChild(resultText);
+  } else {
+    para.insertBefore(resultText, para.childNodes[1]);
+  }
 }
 
 button.addEventListener("click", handleInputCheck);
